@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday My Ching!! 💚</title>
+  <!-- Google Cursive Font: Great Vibes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #121212;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #4a4a4a;
+      perspective: 800px;
+    }
+
+    /* CONTINUOUS SCROLLING FILM STRIP BACKGROUND */
+    .film-strip-container {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 1;
+      opacity: 0.85;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0.1) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .film-track {
+      display: flex;
+      flex-direction: column;
+      animation: scrollFilm 22s linear infinite;
+    }
+
+    @keyframes scrollFilm {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+
+    /* Film Frame Base */
+    .film-frame {
+      position: relative;
+      width: 320px;
+      height: 380px;
+      background: #0d0d0d;
+      border-left: 32px solid #000;
+      border-right: 32px solid #000;
+      border-top: 12px solid #000;
+      border-bottom: 12px solid #000;
+      box-sizing: border-border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    }
+
+    /* Sprocket Hole Accents */
+    .film-frame::before, .film-frame::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 14px;
+      background-image: radial-gradient(circle, #0d0d0d 40%, transparent 45%),
+                        radial-gradient(square, #ffffff 100%, transparent 100%);
+      background-size: 14px 28px;
+      background-repeat: repeat-y;
+      background-position: center;
+    }
+
+    .film-frame::before { left: -24px; }
+    .film-frame::after { right: -24px; }
+
+    /* Photo Frame Window */
+    .photo-window {
+      width: 236px;
+      height: 330px;
+      background: #222;
+      border: 3px solid #1a1a1a;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .photo-window img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.15) contrast(1.05);
+    }
+
+    .photo-placeholder {
+      color: #777;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    /* Falling Background Glitter */
+    .glitter {
+      position: absolute;
+      top: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0.2) 70%);
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+      pointer-events: none;
+      animation: fall linear infinite, strobe 1.5s ease-in-out infinite alternate;
+      z-index: 5;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes strobe {
+      0% { opacity: 0.2; box-shadow: 0 0 2px rgba(255, 255, 255, 0.5); }
+      100% { opacity: 1; box-shadow: 0 0 10px rgba(255, 255, 255, 1); }
+    }
+
+    /* Falling Confetti & Hearts */
+    .celebration-item {
+      position: absolute;
+      top: -20px;
+      pointer-events: none;
+      z-index: 20;
+      animation: celebrationFall linear infinite;
+    }
+
+    @keyframes celebrationFall {
+      0% { transform: translateY(-20px) rotate(0deg) scale(0.8); opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 0.9; }
+      100% { transform: translateY(105vh) rotate(540deg) scale(1.1); opacity: 0; }
+    }
+
+    /* Main Greeting Card Container */
+    .container {
+      position: relative;
+      width: 340px;
+      min-height: 240px;
+      background: rgba(255, 240, 245, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      z-index: 10;
+    }
+
+    .celebration-box {
+      text-align: center;
+    }
+
+    /* Cursive 3D Animated Title */
+    .celebration-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8rem;
+      color: #d81b60;
+      font-weight: 400;
+      line-height: 1.25;
+
+      text-shadow: 
+        1px 1px 0px #ad1457,
+        2px 2px 0px #880e4f,
+        3px 3px 0px rgba(136, 14, 79, 0.4),
+        0 8px 15px rgba(216, 27, 96, 0.3);
+
+      animation: float3D 3.5s ease-in-out infinite alternate;
+      display: inline-block;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes float3D {
+      0% {
+        transform: rotateX(8deg) rotateY(-6deg) translateY(0px);
+      }
+      100% {
+        transform: rotateX(-6deg) rotateY(8deg) translateY(-8px);
+      }
+    }
+
+    .cursor {
+      display: inline-block;
+      font-size: 2.2rem;
+      color: #81c784;
+      font-weight: bold;
+      animation: blink 0.8s infinite;
+      margin-left: 2px;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Music Control Button */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(233, 30, 99, 0.3);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Music Button -->
+  <button class="music-btn" id="musicBtn" onclick="toggleAudio()">🎵</button>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1e374ffc18.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- SCROLLING FILM ROLL BACKGROUND -->
+  <div class="film-strip-container">
+    <div class="film-track">
+      <!-- Set 1 of frames -->
+      <div class="film-frame"><div class="photo-window"><img src="photo1.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 1</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 2</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo3.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 3</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo4.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 4</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo5.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 5</span></div></div>
+
+      <!-- Duplicated Set for Seamless Infinite Loop -->
+      <div class="film-frame"><div class="photo-window"><img src="photo1.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 1</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 2</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo3.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 3</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo4.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 4</span></div></div>
+      <div class="film-frame"><div class="photo-window"><img src="photo5.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="photo-placeholder" style="display:none;">PHOTO 5</span></div></div>
+    </div>
+  </div>
+
+  <!-- Greeting Card -->
+  <div class="container">
+    <div class="celebration-box">
+      <h1 class="celebration-title">
+        <span id="typedText"></span><span class="cursor" id="cursor">|</span>
+      </h1>
+    </div>
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    const fullText = "Happy Birthday My Ching!! 💚";
+    const typedTextSpan = document.getElementById('typedText');
+    const cursorSpan = document.getElementById('cursor');
+
+    // Typed-Out Transition Logic
+    let charIndex = 0;
+    function typeGreeting() {
+      if (charIndex < fullText.length) {
+        typedTextSpan.textContent += fullText.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeGreeting, 100);
+      } else {
+        setTimeout(() => {
+          cursorSpan.style.display = 'none';
+        }, 1500);
+      }
+    }
+
+    // Start typing on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(typeGreeting, 400);
+
+      bgMusic.play().catch(() => {
+        document.body.addEventListener('click', () => {
+          bgMusic.play();
+        }, { once: true });
+      });
+    });
+
+    // Background glitter creation
+    for (let i = 0; i < 30; i++) {
+      const glitter = document.createElement('div');
+      glitter.classList.add('glitter');
+      const size = Math.random() * 4 + 3;
+      glitter.style.width = size + 'px';
+      glitter.style.height = size + 'px';
+      glitter.style.left = Math.random() * 100 + 'vw';
+      glitter.style.animationDuration = (Math.random() * 4 + 4) + 's, ' + (Math.random() * 1.5 + 0.8) + 's';
+      glitter.style.animationDelay = (Math.random() * 5) + 's, ' + (Math.random() * 2) + 's';
+      document.body.appendChild(glitter);
+    }
+
+    // Spawn falling confetti and pink/green hearts
+    const items = ['💚', '💖', '🌸', '✨', '💚', '💕', '🎉'];
+    const colors = ['#81c784', '#f48fb1', '#ce93d8', '#ff80ab', '#a5d6a7'];
+
+    for (let i = 0; i < 35; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.classList.add('celebration-item');
+
+        if (Math.random() > 0.4) {
+          el.innerText = items[Math.floor(Math.random() * items.length)];
+          el.style.fontSize = (Math.random() * 12 + 16) + 'px';
+        } else {
+          const size = Math.random() * 8 + 6;
+          el.style.width = size + 'px';
+          el.style.height = size + 'px';
+          el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        }
+
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animationDuration = (Math.random() * 3 + 3.5) + 's';
+        document.body.appendChild(el);
+      }, i * 180);
+    }
+
+    function toggleAudio() {
+      const musicBtn = document.getElementById('musicBtn');
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicBtn.innerText = "🎵";
+      } else {
+        bgMusic.pause();
+        musicBtn.innerText = "🔇";
+      }
+    }
+  </script>
+</body>
+</html>
