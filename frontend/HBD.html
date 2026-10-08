@@ -65,7 +65,7 @@
       border-right: 32px solid #000;
       border-top: 12px solid #000;
       border-bottom: 12px solid #000;
-      box-sizing: border-border-box;
+      box-sizing: border-box;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -156,27 +156,24 @@
       100% { transform: translateY(105vh) rotate(540deg) scale(1.1); opacity: 0; }
     }
 
-    /* Main Greeting Card Container */
     /* Translucent Glassmorphism Card Container */
-.container {
-  position: relative;
-  width: 340px;
-  min-height: 220px;
-  /* Reduced opacity from 0.75 to 0.25 for higher transparency */
-  background: rgba(255, 240, 245, 0.10); 
-  /* Creates the soft blurred glass effect behind the card */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  border-radius: 30px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 20px;
-  z-index: 10;
-}
+    .container {
+      position: relative;
+      width: 340px;
+      min-height: 220px;
+      background: rgba(255, 240, 245, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      border-radius: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      z-index: 10;
+    }
 
     .celebration-box {
       text-align: center;
@@ -225,6 +222,44 @@
       50% { opacity: 0; }
     }
 
+    /* Stable Translucent Cursive "Next" Button */
+    .next-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color: #d81b60;
+      background: rgba(255, 240, 245, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      padding: 8px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      text-shadow: 
+        1px 1px 0px #ad1457,
+        0 4px 10px rgba(216, 27, 96, 0.3);
+      
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 2.5s ease, transform 0.2s ease, background 0.3s ease;
+      z-index: 100;
+    }
+
+    .next-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .next-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 240, 245, 0.55);
+    }
+
     /* Music Control Button */
     .music-btn {
       position: fixed;
@@ -250,6 +285,9 @@
 
   <!-- Music Button -->
   <button class="music-btn" id="musicBtn" onclick="toggleAudio()">🎵</button>
+
+  <!-- Stable Translucent "Next" Button -->
+  <button class="next-btn" id="nextBtn" onclick="goToNextPage()">Next →</button>
 
   <!-- Background Music -->
   <audio id="bgMusic" loop autoplay>
@@ -289,6 +327,7 @@
     const fullText = "Happy Birthday My Ching!! 💚";
     const typedTextSpan = document.getElementById('typedText');
     const cursorSpan = document.getElementById('cursor');
+    const nextBtn = document.getElementById('nextBtn');
 
     // Typed-Out Transition Logic
     let charIndex = 0;
@@ -301,7 +340,17 @@
         setTimeout(() => {
           cursorSpan.style.display = 'none';
         }, 1500);
+
+        // 8-Second Waiting Time before revealing Next button
+        setTimeout(() => {
+          nextBtn.classList.add('visible');
+        }, 8000);
       }
+    }
+
+    // Navigation function for Next button
+    function goToNextPage() {
+      window.location.href = "page3.html";
     }
 
     // Start typing on page load
