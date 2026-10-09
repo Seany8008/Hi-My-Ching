@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story 💕</title>
+  <!-- Google Cursive & Body Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 50%, #f8bbd0 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #4a4a4a;
+    }
+
+    /* Falling Background Glitter */
+    .glitter {
+      position: absolute;
+      top: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0.2) 70%);
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+      pointer-events: none;
+      animation: fall linear infinite, strobe 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes strobe {
+      0% { opacity: 0.2; box-shadow: 0 0 2px rgba(255, 255, 255, 0.5); }
+      100% { opacity: 1; box-shadow: 0 0 10px rgba(255, 255, 255, 1); }
+    }
+
+    /* Floating Music Control Button */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(233, 30, 99, 0.3);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      transition: transform 0.2s ease;
+    }
+
+    .music-btn.playing {
+      animation: spinVinyl 4s linear infinite;
+    }
+
+    @keyframes spinVinyl {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Main Container Card */
+    .container {
+      position: relative;
+      width: 340px;
+      min-height: 580px;
+      background: rgba(255, 240, 245, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      border-radius: 35px;
+      box-shadow: 0 20px 45px rgba(219, 112, 147, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px 20px;
+      z-index: 10;
+    }
+
+    .header-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.6rem;
+      color: #d81b60;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 0px #ad1457, 0 4px 10px rgba(216, 27, 96, 0.2);
+    }
+
+    /* Slideshow Stack Wrapper */
+    .carousel-wrapper {
+      position: relative;
+      width: 280px;
+      height: 340px;
+      margin-bottom: 20px;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(219, 112, 147, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.92) translateY(15px);
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .slide-img-container {
+      width: 100%;
+      height: 230px;
+      background: #f8bbd0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-body {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 110px;
+      text-align: center;
+    }
+
+    .slide-date {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #e91e63;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .slide-caption {
+      font-size: 0.92rem;
+      color: #4a4a4a;
+      line-height: 1.35;
+      font-weight: 400;
+    }
+
+    /* Controls & Indicators */
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 280px;
+      margin-top: 5px;
+    }
+
+    .nav-btn {
+      background: rgba(233, 30, 99, 0.15);
+      border: 1px solid rgba(233, 30, 99, 0.3);
+      color: #d81b60;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.9);
+      background: rgba(233, 30, 99, 0.3);
+    }
+
+    .dots-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot-indicator {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(216, 27, 96, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .dot-indicator.active {
+      width: 22px;
+      border-radius: 10px;
+      background: #d81b60;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Music Toggle -->
+  <button class="music-btn playing" id="musicBtn" onclick="toggleAudio()">🎵</button>
+
+  <audio id="bgMusic" loop autoplay>
+    <source src="Lemonade.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <h1 class="header-title">Our Story</h1>
+
+    <!-- Photo Slides -->
+    <div class="carousel-wrapper" id="carousel">
+      <!-- Slide 1 -->
+      <div class="slide active">
+        <div class="slide-img-container">
+          <img src="p1.jpg" alt="Memory 1" onerror="this.src='https://via.placeholder.com/280x230/ffc0cb/d81b60?text=Photo+1'">
+        </div>
+        <div class="slide-body">
+          <div class="slide-date">Memory #1</div>
+          <div class="slide-caption">Where it all started... every moment with you is my favorite! ✨</div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide">
+        <div class="slide-img-container">
+          <img src="p2.jpg" alt="Memory 2" onerror="this.src='https://via.placeholder.com/280x230/ffc0cb/d81b60?text=Photo+2'">
+        </div>
+        <div class="slide-body">
+          <div class="slide-date">Memory #2</div>
+          <div class="slide-caption">Late night talks and endless laughter together. 💖</div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide">
+        <div class="slide-img-container">
+          <img src="p3.jpg" alt="Memory 3" onerror="this.src='https://via.placeholder.com/280x230/ffc0cb/d81b60?text=Photo+3'">
+        </div>
+        <div class="slide-body">
+          <div class="slide-date">Memory #3</div>
+          <div class="slide-caption">My happiest days are always spent right by your side. 🌸</div>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide">
+        <div class="slide-img-container">
+          <img src="p4.jpg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/280x230/ffc0cb/d81b60?text=Photo+4'">
+        </div>
+        <div class="slide-body">
+          <div class="slide-date">Memory #4</div>
+          <div class="slide-caption">Thank you for bringing so much color into my life! 💚</div>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide">
+        <div class="slide-img-container">
+          <img src="p5.jpg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/280x230/ffc0cb/d81b60?text=Photo+5'">
+        </div>
+        <div class="slide-body">
+          <div class="slide-date">Happy Birthday!</div>
+          <div class="slide-caption">Here's to making many more beautiful memories together! 🎂🥂</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="controls">
+      <button class="nav-btn" onclick="prevSlide()">❮</button>
+      <div class="dots-container" id="dotsContainer"></div>
+      <button class="nav-btn" onclick="nextSlide()">❯</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let currentIndex = 0;
+
+    // Generate Dot Indicators dynamically
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot-indicator');
+      if (idx === 0) dot.classList.add('active');
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot-indicator');
+
+    function updateSlides() {
+      slides.forEach((slide, idx) => {
+        if (idx === currentIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      dots.forEach((dot, idx) => {
+        if (idx === currentIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateSlides();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateSlides();
+    }
+
+    // Touch Swipe Support for Mobile Phones
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const carousel = document.getElementById('carousel');
+
+    carousel.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    carousel.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 40) nextSlide();
+      if (touchEndX > touchStartX + 40) prevSlide();
+    }
+
+    // Glitter Animation
+    for (let i = 0; i < 30; i++) {
+      const glitter = document.createElement('div');
+      glitter.classList.add('glitter');
+      const size = Math.random() * 4 + 3;
+      glitter.style.width = size + 'px';
+      glitter.style.height = size + 'px';
+      glitter.style.left = Math.random() * 100 + 'vw';
+      glitter.style.animationDuration = (Math.random() * 4 + 4) + 's, ' + (Math.random() * 1.5 + 0.8) + 's';
+      glitter.style.animationDelay = (Math.random() * 5) + 's, ' + (Math.random() * 2) + 's';
+      document.body.appendChild(glitter);
+    }
+
+    function toggleAudio() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicBtn.classList.add('playing');
+        musicBtn.innerText = "🎵";
+      } else {
+        bgMusic.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.innerText = "🔇";
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      bgMusic.play().catch(() => {
+        document.body.addEventListener('click', () => {
+          bgMusic.play();
+        }, { once: true });
+      });
+    });
+  </script>
+</body>
+</html>
