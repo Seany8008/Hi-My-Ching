@@ -85,7 +85,7 @@
     .container {
       position: relative;
       width: 340px;
-      min-height: 580px;
+      min-height: 590px;
       background: rgba(255, 240, 245, 0.45);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -103,7 +103,7 @@
       font-family: 'Great Vibes', cursive;
       font-size: 2.6rem;
       color: #d81b60;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       text-shadow: 1px 1px 0px #ad1457, 0 4px 10px rgba(216, 27, 96, 0.2);
     }
 
@@ -112,7 +112,7 @@
       position: relative;
       width: 280px;
       height: 340px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .slide {
@@ -227,6 +227,28 @@
       border-radius: 10px;
       background: #d81b60;
     }
+
+    /* Translucent Next Button */
+    .page-next-btn {
+      margin-top: 15px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.8rem;
+      color: #d81b60;
+      background: rgba(255, 240, 245, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      padding: 4px 24px;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+      transition: all 0.2s ease;
+    }
+
+    .page-next-btn:active {
+      transform: scale(0.94);
+      background: rgba(255, 240, 245, 0.75);
+    }
   </style>
 </head>
 <body>
@@ -305,6 +327,9 @@
       <div class="dots-container" id="dotsContainer"></div>
       <button class="nav-btn" onclick="nextSlide()">❯</button>
     </div>
+
+    <!-- Next Page Button -->
+    <button class="page-next-btn" onclick="goToNextPage()">Next →</button>
   </div>
 
   <script>
@@ -371,6 +396,14 @@
       if (touchEndX > touchStartX + 40) prevSlide();
     }
 
+    // Save playback timestamp and go to Page 4
+    function goToNextPage() {
+      if (bgMusic) {
+        localStorage.setItem('audioTime', bgMusic.currentTime);
+      }
+      window.location.href = "page4.html";
+    }
+
     // Glitter Animation
     for (let i = 0; i < 30; i++) {
       const glitter = document.createElement('div');
@@ -397,6 +430,12 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Resume music from saved time if navigating back
+      const savedTime = localStorage.getItem('audioTime');
+      if (savedTime && bgMusic) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+
       bgMusic.play().catch(() => {
         document.body.addEventListener('click', () => {
           bgMusic.play();
